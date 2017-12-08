@@ -23,28 +23,40 @@ var app = {
   },
 
 	fetch: function() {
-	this.server = `${this.server}/chatterbox/classes/messages`; // this is hacky. Figure out what they really want here.
-	return $.ajax({
-		url: this.server,
-		type: 'GET',
-		data: null,
-		contentType: 'application/json',
-		success: function (data) {
-			console.log('Fetched', data);
-		}, 
-		error: function () {
-			console.log('Unable to fetch.');
-		}
-	})
-	
+		this.server = `${this.server}/chatterbox/classes/messages`;
+		return $.get( `${this.server}`, function(data) {
+	});
+	// this.server = `${this.server}/chatterbox/classes/messages`; // this is hacky. Figure out what they really want here.
+	// var response = $.ajax({
+	// 	url: this.server,
+	// 	type: 'GET',
+	// 	success: function (data) {
+	// 		console.log('Fetched', data);
+	// 	}, 
+	// 	error: function () {
+	// 		console.log('Unable to fetch.');
+	// 	}
+	// });
+	// return response
 	},
 	
 	clearMessages: function() {
 	},
 
 	renderMessage: function() {
+		
 	},
 
 	renderRoom: function() {
-	}
+	},
+
 };
+
+
+
+
+
+
+
+
+
