@@ -24,18 +24,19 @@ var app = {
 
 	fetch: function() {
 	this.server = `${this.server}/chatterbox/classes/messages`; // this is hacky. Figure out what they really want here.
-	$.ajax({
+	return $.ajax({
 		url: this.server,
 		type: 'GET',
 		data: null,
 		contentType: 'application/json',
 		success: function (data) {
-			console.log(`Fetched`);
+			console.log('Fetched', data);
 		}, 
 		error: function () {
-			console.log(`Unable to fetch.`);
+			console.log('Unable to fetch.');
 		}
-	});
+	})
+	
 	},
 	
 	clearMessages: function() {
