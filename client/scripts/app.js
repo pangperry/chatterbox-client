@@ -23,8 +23,11 @@ var app = {
   },
 
 	fetch: function() {
+var d;
 		this.server = `${this.server}/chatterbox/classes/messages`;
-		return $.get( `${this.server}`, function(data) {
+	  return $.get( `${this.server}`, function(data) {
+			return data.results
+			console.log(`data ${data.results}`)
 	});
 	// this.server = `${this.server}/chatterbox/classes/messages`; // this is hacky. Figure out what they really want here.
 	// var response = $.ajax({
@@ -43,7 +46,8 @@ var app = {
 	clearMessages: function() {
 	},
 
-	renderMessage: function() {
+	renderMessage: function(message) {
+		$('.result').append(`<div class="message">${message.text}</div>`)
 		
 	},
 
