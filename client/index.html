@@ -14,7 +14,8 @@
         if (newSearch !== '' & newSearch !== '?') {
           newSearch += '&';
         }
-        newSearch += 'username=' + (prompt('What is your name?') || 'anonymous');
+        var name = (prompt('What is your name?') || 'anonymous');
+        newSearch += 'username=' + name;
         window.location.search = newSearch;
       }
     </script>
@@ -25,7 +26,21 @@
   <body>
     <div id="main">
       <h1>chatterbox</h1>
-      <select id="roomSelector"></select>
+        <form id="tweet" action="" method="" >
+          <fieldset>
+            <label for="room">
+              Room
+              <select id="roomSelector">
+                <option>Main</option>
+                <option>Other</option>
+              </select>
+            </label>
+            <label for="text">
+              <input id='text' name='text' type="text"/>
+            </label>
+            <input type="submit"/>
+          </fieldset>
+        </form>
       <div class="messageFeed"></div>
       <button class="getMessages" onclick="app.getRecent()">messages</button>
     </div>
