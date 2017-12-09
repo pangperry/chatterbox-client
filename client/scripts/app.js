@@ -27,7 +27,7 @@ var app = {
   toSkip: 200,
 
   init: function() {
-    $.get(`${app.server}/chatterbox/classes/messages`, function(data) {
+    $.get(`${app.server}/chatterbox/classes/messages?limit=20000`, function(data) {
       console.log('done');
       app.messages = data.results;
       app.toSkip = app.messages.length;
@@ -39,7 +39,7 @@ var app = {
         }
       });
       $('#roomSelect').append('<option>Create new room</option>');
-      app.showUpto(200);
+      app.showUpto(20);
     });
   },
 	
@@ -85,9 +85,9 @@ var app = {
     } 
     var createdAt = message.createdAt;
     if (app.friends.includes(userName)) {
-      $('#chats').append(`<div class="message"><a id="friendLink" href="#" onclick="app.addFriend('${userName}')">${userName}</a><br><b>${text}</div>`);   
+      $('#chats').prepend(`<div class="message"><a id="friendLink" href="#" onclick="app.addFriend('${userName}')">${userName}</a><br><b>${text}</div>`);   
     } else {
-      $('#chats').append(`<div class="message"><a id="friendLink" href="#" onclick="app.addFriend('${userName}')">${userName}</a><br>${text}</div>`);   
+      $('#chats').prepend(`<div class="message"><a id="friendLink" href="#" onclick="app.addFriend('${userName}')">${userName}</a><br>${text}</div>`);   
     }
   },
 
@@ -103,16 +103,18 @@ var app = {
   getRecent: function(limit = 200) {
     $.get(`${app.server}/chatterbox/classes/messages?limit=${limit}&skip=${app.messages.length}`, function(data) {
       console.log('done');
-      app.messages = app.messages.concat(data.results);
+      data.results.forEach(function(message) {
+        app.messages.push(message);
+        app.renderMessage(message);
+      });
+      // app.messages = app.messages.concat(data.results);
     });
   },
 
   showUpto: function(index) {
-    app.renderRoom();
-    // for (var midx = 0; midx < app.messages.length; midx++) {
-
-    //   app.renderMessage(app.messages[midx]);
-    // }
+    for (var idx = app.messages.length - index; idx < app.messages.length; idx++) {
+      app.renderMessage(app.messages[idx]); 
+    }
   },
 
   addRoom: function(room) {
@@ -120,12 +122,12 @@ var app = {
       app.rooms.push(room);
       $('#roomSelect').append(`<option>${room}</option>`);
     }
-  }
-
-   
+  }  
 };
 
 $(function() {
+  app.init();
+  //setInterval(app.getRecent, 1000);
   $('#roomSelect').on('change', function(e) {
     if ($(this).val() === 'Create new room') {
       $('#hiddenRoomField').css({visibility: 'visible'});
@@ -135,7 +137,7 @@ $(function() {
     app.renderRoom();
   });
 
-  app.init();
+ 
   $('#tweet').on('submit', function(e) {
     e.preventDefault();
     var messageObj = {};
