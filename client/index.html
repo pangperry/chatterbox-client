@@ -30,7 +30,7 @@
           <fieldset>
             <label for="room">
               Room
-              <select id="roomSelector">
+              <select id="roomSelect">
                 <option>Main</option>
                 <option>Other</option>
               </select>
@@ -41,9 +41,9 @@
             <input type="submit"/>
           </fieldset>
         </form>
-      <div class="messageFeed"></div>
+      <div class="messageFeed" id="chats"></div>
       <button class="getMessages" onclick="app.getRecent()">messages</button>
     </div>
-    <div id="chats"></div>
+    <div></div>
   </body>
 </html>

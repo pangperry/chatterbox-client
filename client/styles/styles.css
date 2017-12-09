@@ -5,7 +5,7 @@ body {
     font-family: arial, sans-serif;
 }
 
-#main, #chats {
+#main {
     width: 500px;
     margin: auto;
     text-align: left;
@@ -75,9 +75,14 @@ form input[type=text] {
 
 .message {
     padding: 5px;
+    margin-bottom: 5px;
     background-color: grey;
     border: solid 2px blue;
     border-radius: 5px;
+}
+
+.message:hover {
+    background-color: #ddd;
 }
 
 .spinner {

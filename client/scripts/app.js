@@ -35,7 +35,7 @@ var app = {
         message.roomname = message.roomname ? message.roomname : 'lobby';
         if (!app.rooms.includes(message.roomname)) {
           app.rooms.push(message.roomname);
-          $('#roomSelector').append(`<option>${message.roomname}</option>`);
+          $('#roomSelect').append(`<option>${message.roomname}</option>`);
         }
       });
       app.showUpto(200);
@@ -64,7 +64,7 @@ var app = {
   },
 	
   clearMessages: function() {
-    $('.messageFeed').html('');
+    $('#chats').html('');
   },
 
   addFriend: function(friend) {
@@ -72,7 +72,6 @@ var app = {
   },
 
   renderMessage: function(message) {
-	//	$('.result').append(`<div class="message">${message.text}</div>`);
     var userName = message.username || 'Anonymous';
     if (userName) {
       userName = userName.encodeHtml();
@@ -84,16 +83,16 @@ var app = {
     } 
     var createdAt = message.createdAt;
     if (app.friends.includes(userName)) {
-      $('.messageFeed').append(`<div class="message"><a href="#" onclick="app.addFriend('${userName}')">${userName}</a><br><b>${text}</b><br>${createdAt}</div>`);   
+      $('#chats').append(`<div class="message"><a id="friendLink" href="#" onclick="app.addFriend('${userName}')">${userName}</a><br><b>${text}</div>`);   
     } else {
-      $('.messageFeed').append(`<div class="message"><a href="#" onclick="app.addFriend('${userName}')">${userName}</a><br>${text}<br>${createdAt}</div>`);   
+      $('#chats').append(`<div class="message"><a id="friendLink" href="#" onclick="app.addFriend('${userName}')">${userName}</a><br>${text}</div>`);   
     }
   },
 
   renderRoom: function() {
     app.clearMessages();
     app.messages.forEach(function(message) {
-      if (message.roomname === $('#roomSelector')[0].value) {
+      if (message.roomname === $('#roomSelect')[0].value) {
         app.renderMessage(message);
       }
     });
@@ -126,7 +125,7 @@ $(function() {
     var $form = $(this);
     messageObj.text = $('#text').val(); 
     messageObj.username = window.name;
-    messageObj.room = $('#roomSelector')[0].value;
+    messageObj.room = $('#roomSelect')[0].value;
     $('#text').val('');
     app.send(messageObj);
     
