@@ -7,6 +7,7 @@
 
     <!-- dependencies -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--<script src="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></script>-->
     <script>
       // YOU DO NOT NEED TO EDIT THIS CODE
       if (!/(&|\?)username=/.test(window.location.search)) {
@@ -28,12 +29,13 @@
       <h1>chatterbox</h1>
         <form id="tweet" action="" method="" >
           <fieldset>
-            <label for="room">
-              Room
-              <select id="roomSelect">
-                <option>Main</option>
-                <option>Other</option>
-              </select>
+          <div id="roomInputs">
+              <label for="room">
+                Room
+                <select id="roomSelect">
+                </select>
+              <div id="hiddenRoomField"><input id='newRoomInput' placeholder='New Room Name' name='room' type="text"/></div>
+            </div>
             </label>
             <label for="text">
               <input id='text' name='text' type="text"/>

@@ -1,8 +1,9 @@
 body {
-    background: #eee;
+    background: #ADD8E6;
     text-align: center;
     padding: 0 25px;
     font-family: arial, sans-serif;
+    
 }
 
 #main {
@@ -16,6 +17,7 @@ body {
 }
 
 #main h1 {
+    font-family: cursive, sans-serif;
     margin-top: 0;
     font-size: 35px;
     margin-bottom: 5px;
@@ -46,6 +48,21 @@ body {
     line-height: 13px;
 }
 
+#roomInputs {
+    display: inline-block;
+}
+
+#roomSelect  {
+    display: inline-block;
+    width: 40%
+}
+
+#hiddenRoomField {
+    visibility: hidden;
+    display: inline-block;
+    width: 40%
+}
+
 form {
     padding: 20px;
     padding-left: 0;
@@ -59,27 +76,27 @@ form input[type=text] {
     padding: 5px;
 }
 
-.chat {
-    padding: 5px;
-    margin-bottom: 5px;
-    background-color: #eee;
-}
-
-.chat .username {
-    font-weight: 800;
-}
 
 .chat:hover {
     background-color: #ddd;
 }
 
 .message {
+
     padding: 5px;
     margin-bottom: 5px;
     background-color: grey;
-    border: solid 2px blue;
+    border: solid 1px black;
     border-radius: 5px;
 }
+
+.message a {
+    color: blue;
+    text-decoration: none;
+}
+
+
+
 
 .message:hover {
     background-color: #ddd;
