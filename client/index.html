@@ -25,8 +25,9 @@
   <body>
     <div id="main">
       <h1>chatterbox</h1>
-      <div class="result"></div>
-      <button class="getMessages" onclick="app.fetch()">messages</button>
+      <select id="roomSelector"></select>
+      <div class="messageFeed"></div>
+      <button class="getMessages" onclick="app.fetch(app.showMessages)">messages</button>
     </div>
     <div id="chats"></div>
   </body>
