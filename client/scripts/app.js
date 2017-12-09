@@ -1,28 +1,28 @@
 var app = {
   server: 'http://parse.sfm8.hackreactor.com',
   rooms: [],
-	// friends: [],
+  friends: ['cat'],
   messages: [],
-  toSkip: 0,
+  toSkip: 200,
 
   init: function() {
     $.get(`${app.server}/chatterbox/classes/messages`, function(data) {
+    	console.log('done')
       app.messages = data.results;
+      app.toSkip = app.messages.length
       app.messages.forEach(function(message) {
         message.roomname = message.roomname ? message.roomname : 'lobby';
         if (!app.rooms.includes(message.roomname)) {
           app.rooms.push(message.roomname);
           $('#roomSelector').append(`<option>${message.roomname}</option>`);
         }
-        app.renderMessage(message);          
       });
-// app.showMessages(data.results.slice(0, 10));
     });
+    app.showUpto(200);
   },
 	
   send: function(message) { 
     $.ajax({
-		// This is the url you should use to communicate with the parse API server.
       url: 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages',
       type: 'POST',
       data: message,
@@ -38,7 +38,7 @@ var app = {
   },
 
   fetch: function(callback) {
-    app.server = `${app.server}/chatterbox/classes/messages?limit=${limit}&skip=${app.toSkip}`;
+  	app.server = `${app.server}/chatterbox/classes/messages?skip=${app.toSkip}`;
     $.get( `${app.server}`, callback);
   },
 	
@@ -46,13 +46,21 @@ var app = {
     $('.messageFeed').html('');
   },
 
+  addFriend: function(friend){
+  	app.friends.push(friend);
+  },
+
   renderMessage: function(message) {
 	//	$('.result').append(`<div class="message">${message.text}</div>`);
     var userName = message.username || 'Anonymous';
     var roomName = message.roomname || 'Main';
-    var text = message.text;
+    var text = encodeURI(message.text);
     var createdAt = message.createdAt;
-    $('.messageFeed').append(`<div class="message">${userName}<br>${text}<br>${createdAt}</div>`);   
+    if (app.friends.includes(userName)){
+      $('.messageFeed').append(`<div class="message"><a href="#" onclick="app.addFriend('${userName}')">${userName}</a><br><b>${text}</b><br>${createdAt}</div>`);   
+    } else {
+      $('.messageFeed').append(`<div class="message"><a href="#" onclick="app.addFriend('${userName}')">${userName}</a><br>${text}<br>${createdAt}</div>`);   
+    }
   },
 
   renderRoom: function() {
@@ -63,6 +71,15 @@ var app = {
       }
     });
   },
+
+  getRecent: function() {
+    $.get(`${app.server}/chatterbox/classes/messages?limit=200&skip=${app.messages.length}`, function(data) {
+    	console.log('done')
+      app.messages = app.messages.concat(data.results)
+    })
+  },
+
+ 
     
 };
 
