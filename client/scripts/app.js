@@ -7,12 +7,9 @@ String.prototype.encodeHtml = function() {
     '>': '&gt;',
     '/': '&#x2F'
   };
-  // return this.replace(/[&<>]/g, function(tag) {
-  //   return tagsToReplace[tag] || tag;
-  // });
   return this.split('').map(function(char) {
     return tagsToReplace[char] || char;
-  }).join("");
+  }).join('');
 };
 
 String.prototype.decodeHtml = function() {
@@ -34,7 +31,7 @@ var app = {
   rooms: [],
   friends: [],
   messages: [],
-  messageIds: {}, // HERE testing if storing messages by objectID prevents duplicates
+  messageIds: {}, 
   toSkip: 200,
 
   init: function() {
@@ -43,7 +40,7 @@ var app = {
       app.messages = data.results;
       app.toSkip = app.messages.length;
       app.messages.forEach(function(message) {
-        app.messageIds[message.objectId] = message; // HERE
+        app.messageIds[message.objectId] = message; 
         message.roomname = message.roomname ? message.roomname : 'lobby';
         if (!app.rooms.includes(message.roomname)) {
           app.rooms.push(message.roomname);
@@ -58,21 +55,14 @@ var app = {
   },
   
   send: function(message) {
-    //debugger;
     $.ajax({
       url: 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages',
       type: 'POST',
       data: message,
-      //headers: {'Origin', 'http://parse.sfm8.hackreactor.com'}
-      //headers: {"Access-Control-Allow-Headers": "http://parse.sfm8.hackreactor.com"},
-      // AccessControlAllowOrigin: '*',
-      // AccessControlAllowMethods: 'POST' 'GET',
-      //contentType: 'application/json',
       success: function (data) {
         console.log('chatterbox: Message sent');
       },
       error: function (data) {
-      // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
         console.error(`chatterbox: Failed to send message: ${data}`);
       }
     });
@@ -90,6 +80,14 @@ var app = {
   addFriend: function(friend) {
     app.friends.push(friend);
     app.showRoom();
+  },
+
+  handleUsernameClick: function(uname) {
+    // for specrunner test, not working so reverted to original code.
+  },
+
+  handleSubmit: function() {
+    // same as above.
   },
 
   renderMessage: function(message) { 
@@ -111,7 +109,7 @@ var app = {
 
     var createdAt = message.createdAt;
     if (app.friends.includes(userName)) { 
-      $('#chats').prepend(`<div class="message"><a id="friendLink" href="#" onclick="app.addFriend('${userName}')">${userName}</a><br><b>${text}</div>`);   
+      $('#chats').prepend(`<div class="message"><a id="friendLink" href="#" onclick="app.addFriend('${userName}')">${userName}</a><br><b>${text}</div>`);   // onclick="app.addFriend('${userName}')"
     } else {
       $('#chats').prepend(`<div class="message"><a id="friendLink" href="#" onclick="app.addFriend('${userName}')">${userName}</a><br>${text}</div>`);   
     }
@@ -122,6 +120,7 @@ var app = {
       app.rooms.push(room);
       $('#roomSelect').append(`<option>${room}</option>`);
     }
+  app.showRoom();
   },
 
   getRecent: function(limit = 200) {
@@ -155,8 +154,6 @@ var app = {
 $(function() {
   
   app.init();
- 
-  
   setInterval(app.getRecent, 3000);
 
   $('#roomSelect').on('change', function(e) {
@@ -167,11 +164,8 @@ $(function() {
     }
     app.showRoom();
   });
-
-  
-
  
-  $('#tweet').on('submit', function(e) {
+  $('#message').on('submit', function(e) {
     e.preventDefault();
     var messageObj = {};
     var $form = $(this);
@@ -181,15 +175,11 @@ $(function() {
     $('#text').val('');
     if ($('#hiddenRoomField')[0].style.cssText === 'visibility: visible;') {
       messageObj.room = $('#newRoomInput').val();
-      app.addRoom(messageObj.room);
+      app.renderRoom(messageObj.room);
       $('#hiddenRoomField').css({visibility: 'hidden'});
     } 
-
-    app.send(messageObj);
-    
+    app.send(messageObj); 
   });
-
-
 });
 
 
