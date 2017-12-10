@@ -12,7 +12,7 @@ String.prototype.encodeHtml = function() {
   // });
   return this.split('').map(function(char) {
     return tagsToReplace[char] || char;
-  });
+  }).join("");
 };
 
 String.prototype.decodeHtml = function() {
@@ -47,12 +47,14 @@ var app = {
         message.roomname = message.roomname ? message.roomname : 'lobby';
         if (!app.rooms.includes(message.roomname)) {
           app.rooms.push(message.roomname);
-          $('#roomSelect').append(`<option>${message.roomname}</option>`);
+          $('#roomSelect').append(`<option>${message.roomname.encodeHtml()}</option>`);
         }
       });
       $('#roomSelect').append('<option>Create new room</option>');
       app.showUpto(20);
+
     });
+
   },
 	
   send: function(message) {
@@ -91,23 +93,27 @@ var app = {
   },
 
   renderMessage: function(message) { 
+
     var userName = message.username || 'Anonymous';
     if (userName) {
       userName = userName.encodeHtml();
     } 
+
     var roomName = message.roomname || 'Main';
     if (roomName) {
       roomName = roomName.encodeHtml();
     }
+
     var text = message.text;
     if (text) {
       text = text.encodeHtml();
     } 
+
     var createdAt = message.createdAt;
     if (app.friends.includes(userName)) { 
-      $('#chats').prepend(`<div class="message"><a id="friendLink" href="#" onclick="app.addFriend('${userName}')">${userName}</a><br><b>${text}</div>`);   
+      $('#chats').prepend(`<div class="message"><a class="username" id="friendLink" href="#" >${userName}</a><br><b>${text}</div>`);   
     } else {
-      $('#chats').prepend(`<div class="message"><a id="friendLink" href="#" onclick="app.addFriend('${userName}')">${userName}</a><br>${text}</div>`);   
+      $('#chats').prepend(`<div class="message"><a class="username" id="friendLink" href="#" >${userName}</a><br>${text}</div>`);   
     }
   },
 
@@ -147,11 +153,12 @@ var app = {
 };
 
 $(function() {
-  $('username').on('click', function(e) {
-    console.log('clicked');
-  });
+  
   app.init();
+ 
+  
   setInterval(app.getRecent, 3000);
+
   $('#roomSelect').on('change', function(e) {
     if ($(this).val() === 'Create new room') {
       $('#hiddenRoomField').css({visibility: 'visible'});
@@ -177,9 +184,16 @@ $(function() {
       app.addRoom(messageObj.room);
       $('#hiddenRoomField').css({visibility: 'hidden'});
     } 
+
     app.send(messageObj);
     
   });
+
+  $('.username').on('click', function(e) {
+    e.preventDefault();
+    console.log('clicked');
+  });
+
 });
 
 
