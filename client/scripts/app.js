@@ -56,7 +56,7 @@ var app = {
     });
 
   },
-	
+  
   send: function(message) {
     //debugger;
     $.ajax({
@@ -82,7 +82,7 @@ var app = {
     app.server = `${app.server}/chatterbox/classes/messages?skip=${app.toSkip}`;
     $.get( `${app.server}`, callback);
   },
-	
+  
   clearMessages: function() {
     $('#chats').html('');
   },
@@ -111,9 +111,9 @@ var app = {
 
     var createdAt = message.createdAt;
     if (app.friends.includes(userName)) { 
-      $('#chats').prepend(`<div class="message"><a class="username" id="friendLink" href="#" >${userName}</a><br><b>${text}</div>`);   
+      $('#chats').prepend(`<div class="message"><a id="friendLink" href="#" onclick="app.addFriend('${userName}')">${userName}</a><br><b>${text}</div>`);   
     } else {
-      $('#chats').prepend(`<div class="message"><a class="username" id="friendLink" href="#" >${userName}</a><br>${text}</div>`);   
+      $('#chats').prepend(`<div class="message"><a id="friendLink" href="#" onclick="app.addFriend('${userName}')">${userName}</a><br>${text}</div>`);   
     }
   },
 
@@ -189,13 +189,8 @@ $(function() {
     
   });
 
-  $('.username').on('click', function(e) {
-    e.preventDefault();
-    console.log('clicked');
-  });
 
 });
-
 
 
 

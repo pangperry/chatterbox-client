@@ -28,20 +28,20 @@
   <body>
     <div id="main">
       <h1>chatterbox</h1>
-        <form id="tweet" action="" method="" >
+        <form id="message" action="" method="" >
           <fieldset>
-          <div id="roomInputs">
+            <div id="roomInputs">
               <label for="room">
                 Room
                 <select id="roomSelect">
                 </select>
               <div id="hiddenRoomField"><input id='newRoomInput' placeholder='New Room Name' name='room' type="text"/></div>
             </div>
-            </label>
+              </label>
             <label for="text">
               <input id='text' name='text' type="text"/>
             </label>
-            <input type="submit"/>
+            <input id="send" type="submit"/>
           </fieldset>
         </form>
       <div class="messageFeed" id="chats"></div>

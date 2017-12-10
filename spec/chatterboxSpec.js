@@ -107,7 +107,6 @@ describe('chatterbox', function() {
         app.init();
 
         $('#main').find('.username').trigger('click');
-        debugger;
         expect(app.handleUsernameClick.called).to.be.true;
 
         app.handleUsernameClick.restore();
